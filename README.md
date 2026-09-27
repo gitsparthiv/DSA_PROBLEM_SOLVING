@@ -1,0 +1,10 @@
+﻿# DSA Problem Solving & Progress Tracker
+
+Progress tracker for Data Structures & Algorithms and LeetCode problem solving.
+
+## Progress Table
+
+| # | Problem | Topic | Difficulty | Status | Solution Link |
+|---|---------|-------|------------|--------|---------------|
+| 238 | Product of Array Except Self | Arrays | Medium | ✅ | [238-product-of-array-except-self](Arrays/238-product-of-array-except-self/) |
+

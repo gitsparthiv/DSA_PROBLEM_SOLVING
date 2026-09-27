@@ -1,0 +1,9 @@
+﻿# Binaries and compiled files
+*.exe
+*.out
+*.o
+*.obj
+
+# Test binaries
+test
+test.exe
