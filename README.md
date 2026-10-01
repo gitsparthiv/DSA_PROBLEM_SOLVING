@@ -7,4 +7,5 @@ Progress tracker for Data Structures & Algorithms and LeetCode problem solving.
 | # | Problem | Topic | Difficulty | Status | Solution Link |
 |---|---------|-------|------------|--------|---------------|
 | 238 | Product of Array Except Self | Arrays | Medium | ✅ | [238-product-of-array-except-self](Arrays/238-product-of-array-except-self/) |
+| 128 | Longest Consecutive Sequence | Hashing | Medium | ✅ | [128-longest-consecutive-sequence](Hashing/128-longest-consecutive-sequence/) |
 

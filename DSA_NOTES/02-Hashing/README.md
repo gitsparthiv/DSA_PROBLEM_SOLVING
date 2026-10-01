@@ -29,30 +29,36 @@
 #include <unordered_set>
 using namespace std;
 
-unordered_set<int> s;
+// 1. Initializing from a vector in O(n)
+unordered_set<int> numSet(nums.begin(), nums.end());
 
-// 1. Insert
-s.insert(10);
-s.insert(20);
+// 2. Insert
+numSet.insert(10);
 
-// 2. Search (The Golden Idiom)
-if (s.find(x) != s.end()) {
-    // x WAS found
+// 3. Search (The Golden Idiom)
+if (numSet.find(x) != numSet.end()) {
+    // x WAS found in set
 }
-if (s.find(x) == s.end()) {
-    // x was NOT found
-}
-
-// 3. Or using count()
-if (s.count(x)) {
-    // x exists (returns 1 or 0)
+if (numSet.find(x) == numSet.end()) {
+    // x was NOT found in set (Sequence starter condition: num - 1 == end())
 }
 
-// 4. Erase
-s.erase(10);
+// 4. Using count()
+if (numSet.count(x)) {
+    // returns 1 if exists, 0 if not
+}
+
+// 5. Traversing an unordered_set (Range-based loop)
+for (int num : numSet) {
+    // num is each unique element
+}
 ```
 
-### Problem Pattern: Contains Duplicate (LC 217)
+---
+
+## 4. Key Patterns
+
+### Pattern 1: Contains Duplicate (LC 217)
 ```cpp
 bool containsDuplicate(vector<int>& nums) {
     unordered_set<int> seen;
@@ -64,9 +70,18 @@ bool containsDuplicate(vector<int>& nums) {
 }
 ```
 
+### Pattern 2: Longest Consecutive Sequence in $O(n)$ (LC 128)
+- Put all elements into an `unordered_set`.
+- Loop over `numSet` with `for (int num : numSet)`.
+- Check if `num` is a starter: `numSet.find(num - 1) == numSet.end()`.
+- Expand streak with `while (numSet.find(currentNum + 1) != numSet.end())`.
+- Update `maxstreak = max(maxstreak, currentStreak)`.
+
+> ⚠️ **Critical Trap Avoided:** Always loop over `numSet`, NOT `nums`. Looping over `nums` can trigger the starter loop repeatedly for duplicate values (e.g. 100,000 zeros) leading to $O(n^2)$ TLE.
+
 ---
 
-## 4. Essential HashMap (`unordered_map`) Syntax & Pitfalls
+## 5. Essential HashMap (`unordered_map`) Syntax & Pitfalls
 
 ```cpp
 #include <unordered_map>
@@ -96,11 +111,9 @@ for (auto& pair : mp) {
 
 ---
 
-## 5. Sorting a HashMap by Value (Important Pattern)
+## 6. Sorting a HashMap by Value (Important Pattern)
 
-You **cannot** sort a hashmap directly with `std::sort()`.
-
-### The Idiom: Convert to `vector<pair<K, V>>`:
+Convert to `vector<pair<K, V>>`:
 ```cpp
 unordered_map<int, int> mp; // e.g. {num, freq}
 

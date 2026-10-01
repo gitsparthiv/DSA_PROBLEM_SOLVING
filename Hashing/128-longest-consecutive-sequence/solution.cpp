@@ -8,29 +8,20 @@ public:
     {
         unordered_set<int> numSet(nums.begin(), nums.end());
         int maxstreak = 0;
-        for (int i = 0; i < nums.size(); i++)
+        for (int num:numSet)
         {
-            int currentstreak = 0;
-            if (numSet.find(nums[i] - 1) == numSet.end())
+            
+            if (numSet.find(num - 1) == numSet.end())
             {
-                currentstreak++;
-                for (int j = 1; j < nums.size(); j++)
+                int currentNum = num;
+                int currentStreak = 1;
+              while(numSet.find(currentNum + 1) != numSet.end())
                 {
-                    if (numSet.find(nums[i] + j) != numSet.end())
-                    {
-                        currentstreak++;
-                    }
-                    else if ((numSet.find(nums[i] + j) == numSet.end()))
-                    {
-                        break;
-                    }
+                     currentNum++;
+                    currentStreak++;
                 }
+                maxstreak = max(currentStreak, maxstreak);
             }
-            else if (numSet.find(nums[i] - 1) != numSet.end())
-            {
-                continue;
-            }
-            maxstreak = max(currentstreak, maxstreak);
         }
         return maxstreak;
     }
