@@ -56,7 +56,43 @@ for (int num : numSet) {
 
 ---
 
-## 4. Key Patterns
+## 4. Vector / Array of HashSets (Multi-Category Tracking)
+
+When you need multiple independent hash sets to track elements across distinct groups (e.g., each row, column, or grid sub-box in a matrix like Sudoku):
+
+### Declaration:
+```cpp
+// Creates a vector containing 9 independent HashSets
+vector<unordered_set<char>> rows(9);
+vector<unordered_set<char>> cols(9);
+vector<unordered_set<char>> boxes(9);
+
+// Or static array syntax:
+unordered_set<char> rows[9];
+```
+
+### Mental Model in Memory:
+```text
+rows[0] -> HashSet for Row 0
+rows[1] -> HashSet for Row 1
+...
+rows[8] -> HashSet for Row 8
+```
+
+### Operations via Index:
+```cpp
+// Check if character '5' already exists in Row r
+if (rows[r].count('5')) {
+    return false; // duplicate found in row r!
+}
+
+// Insert character '5' into Row r
+rows[r].insert('5');
+```
+
+---
+
+## 5. Key Patterns
 
 ### Pattern 1: Contains Duplicate (LC 217)
 ```cpp
@@ -81,7 +117,7 @@ bool containsDuplicate(vector<int>& nums) {
 
 ---
 
-## 5. Essential HashMap (`unordered_map`) Syntax & Pitfalls
+## 6. Essential HashMap (`unordered_map`) Syntax & Pitfalls
 
 ```cpp
 #include <unordered_map>
@@ -111,7 +147,7 @@ for (auto& pair : mp) {
 
 ---
 
-## 6. Sorting a HashMap by Value (Important Pattern)
+## 7. Sorting a HashMap by Value (Important Pattern)
 
 Convert to `vector<pair<K, V>>`:
 ```cpp
