@@ -9,4 +9,5 @@ Progress tracker for Data Structures & Algorithms and LeetCode problem solving.
 | 238 | Product of Array Except Self | Arrays | Medium | ✅ | [238-product-of-array-except-self](Arrays/238-product-of-array-except-self/) |
 | 128 | Longest Consecutive Sequence | Hashing | Medium | ✅ | [128-longest-consecutive-sequence](Hashing/128-longest-consecutive-sequence/) |
 | 36 | Valid Sudoku | Hashing / Matrix | Medium | ✅ | [036-valid-sudoku](Hashing/036-valid-sudoku/) |
+| 125 | Valid Palindrome | Two-Pointers | Easy | ✅ | [125-valid-palindrome](Two-Pointers/125-valid-palindrome/) |
 
