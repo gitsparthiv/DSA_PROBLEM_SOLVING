@@ -101,3 +101,41 @@ vector<vector<int>> threeSum(vector<int>& nums) {
 }
 ```
 - **Complexity:** Time $\mathcal{O}(n^2)$, Space $\mathcal{O}(1)$ auxiliary.
+
+---
+
+## 5. Pattern 3: Container With Most Water (LC 11)
+
+### Problem:
+Find two vertical lines from an array `height` such that they form a container holding the maximum water.
+
+### Mental Model & The Greedy Choice:
+- Start with pointers at opposite ends (`left = 0`, `right = n - 1`) for maximum initial width.
+- In each step:
+  $$\text{currentArea} = (\text{right} - \text{left}) \times \min(\text{height}[left], \text{height}[right])$$
+  $$\text{maxWater} = \max(\text{maxWater}, \text{currentArea})$$
+- **Why discard the shorter wall?**
+  - Moving either pointer inward reduces width by 1.
+  - Moving the taller wall cannot increase the water height (still limited by the existing shorter wall), making a larger area mathematically impossible.
+  - Moving the shorter wall is the ONLY way to potentially find a taller wall and achieve a larger area.
+
+### Template Code:
+```cpp
+int maxArea(vector<int>& height) {
+    int left = 0, right = height.size() - 1;
+    int maxWater = 0;
+    
+    while (left < right) {
+        int currentArea = (right - left) * min(height[left], height[right]);
+        maxWater = max(maxWater, currentArea);
+        
+        if (height[left] < height[right]) {
+            left++;
+        } else {
+            right--; // Handles both > and ==
+        }
+    }
+    return maxWater;
+}
+```
+- **Complexity:** Time $\mathcal{O}(n)$, Space $\mathcal{O}(1)$.
