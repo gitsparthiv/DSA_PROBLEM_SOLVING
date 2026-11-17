@@ -13,3 +13,4 @@ Progress tracker for Data Structures & Algorithms and LeetCode problem solving.
 | 15 | 3Sum | Two-Pointers | Medium | ✅ | [015-3sum](Two-Pointers/015-3sum/) |
 | 11 | Container With Most Water | Two-Pointers | Medium | ✅ | [011-container-with-most-water](Two-Pointers/011-container-with-most-water/) |
 | 167 | Two Sum II - Input Array Is Sorted | Two-Pointers | Medium | ✅ | [167-two-sum-ii-input-array-is-sorted](Two-Pointers/167-two-sum-ii-input-array-is-sorted/) |
+| 42 | Trapping Rain Water | Two-Pointers | Hard | ✅ | [042-trapping-rain-water](Two-Pointers/042-trapping-rain-water/) |
