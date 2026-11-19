@@ -8,9 +8,9 @@ The **Two-Pointers** pattern uses two integer index variables to traverse linear
 
 ### Common Configurations:
 1. **Opposite Ends (Converging):** `left = 0`, `right = n - 1` moving toward each other (`while (left < right)`).
-   - Used for: Palindromes, Two Sum in Sorted Arrays, Container with Most Water, 3Sum inner scan.
+   - Used for: Palindromes, Two Sum in Sorted Arrays, Container with Most Water, 3Sum inner scan, Trapping Rain Water.
 2. **Same Direction (Fast & Slow):** `slow = 0`, `fast = 0` moving forward at different speeds or conditions.
-   - Used for: Remove duplicates in-place, linked list middle/cycle detection.
+   - Used for: Remove duplicates in-place, sliding windows, linked list middle/cycle detection.
 
 ---
 
@@ -44,13 +44,42 @@ bool isPalindrome(string s) {
     return true;
 }
 ```
+- **Complexity:** Time $\mathcal{O}(n)$, Space $\mathcal{O}(1)$.
 
 ---
 
-## 4. Pattern 2: 3Sum / Triplets with Zero Sum (LC 15)
+## 4. Pattern 2: Two Sum II - Input Array Is Sorted (LC 167)
+
+### Key Invariant:
+Because the array is sorted in non-decreasing order:
+- Moving `left++` strictly non-decreases the sum.
+- Moving `right--` strictly non-increases the sum.
+- This monotonicity eliminates the need for any hash map storage.
+
+```cpp
+vector<int> twoSum(vector<int>& numbers, int target) {
+    int left = 0, right = numbers.size() - 1;
+    while (left < right) {
+        int currentsum = numbers[left] + numbers[right];
+        if (currentsum == target) {
+            return {left + 1, right + 1}; // 1-based indexing
+        } else if (currentsum < target) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+    return {-1, -1};
+}
+```
+- **Complexity:** Time $\mathcal{O}(n)$, Space $\mathcal{O}(1)$.
+
+---
+
+## 5. Pattern 3: 3Sum / Triplets with Zero Sum (LC 15)
 
 ### Problem:
-Find all unique triplets `[a, b, c]` such that `a + b + c == 0` in $\mathcal{O}(n^2)$ time and without duplicate triplets.
+Find all unique triplets `[a, b, c]` such that `a + b + c == 0` without duplicates in $\mathcal{O}(n^2)$ time.
 
 ### The 3-Step Mental Framework:
 1. **Sort First:** `sort(nums.begin(), nums.end())` (Enables two-pointer search and clusters identical values together).
@@ -63,7 +92,7 @@ Find all unique triplets `[a, b, c]` such that `a + b + c == 0` in $\mathcal{O}(
    - If `nums[left] + nums[right] == complement`:
      - Add `{nums[i], nums[left], nums[right]}` to result.
      - Advance both `left++` and `right--`.
-     - Fast-forward duplicate `left` and `right` elements:
+     - Fast-forward duplicate `left` and `right` elements without using extra hash sets:
        ```cpp
        while (left < right && nums[left] == nums[left - 1]) left++;
        while (left < right && nums[right] == nums[right + 1]) right--;
@@ -79,8 +108,7 @@ vector<vector<int>> threeSum(vector<int>& nums) {
         if (i > 0 && nums[i] == nums[i - 1]) continue;
         
         int complement = -nums[i];
-        int left = i + 1;
-        int right = nums.size() - 1;
+        int left = i + 1, right = nums.size() - 1;
         
         while (left < right) {
             int res = nums[left] + nums[right];
@@ -104,22 +132,18 @@ vector<vector<int>> threeSum(vector<int>& nums) {
 
 ---
 
-## 5. Pattern 3: Container With Most Water (LC 11)
+## 6. Pattern 4: Container With Most Water (LC 11)
 
-### Problem:
-Find two vertical lines from an array `height` such that they form a container holding the maximum water.
-
-### Mental Model & The Greedy Choice:
-- Start with pointers at opposite ends (`left = 0`, `right = n - 1`) for maximum initial width.
+### The Greedy Choice:
+- Place pointers at outer ends (`left = 0`, `right = n - 1`) for maximum initial width.
 - In each step:
   $$\text{currentArea} = (\text{right} - \text{left}) \times \min(\text{height}[left], \text{height}[right])$$
   $$\text{maxWater} = \max(\text{maxWater}, \text{currentArea})$$
 - **Why discard the shorter wall?**
-  - Moving either pointer inward reduces width by 1.
-  - Moving the taller wall cannot increase the water height (still limited by the existing shorter wall), making a larger area mathematically impossible.
-  - Moving the shorter wall is the ONLY way to potentially find a taller wall and achieve a larger area.
+  - Moving either pointer inward strictly reduces width by 1.
+  - Keeping the shorter wall cannot increase the water height (still limited by that shorter wall), so area can never increase.
+  - Discarding the shorter wall is the ONLY way to potentially find a taller wall and achieve a larger area.
 
-### Template Code:
 ```cpp
 int maxArea(vector<int>& height) {
     int left = 0, right = height.size() - 1;
@@ -136,6 +160,48 @@ int maxArea(vector<int>& height) {
         }
     }
     return maxWater;
+}
+```
+- **Complexity:** Time $\mathcal{O}(n)$, Space $\mathcal{O}(1)$.
+
+---
+
+## 7. Pattern 5: Trapping Rain Water (LC 42)
+
+### Dynamic Bottleneck Tracking:
+- Water above any bar $i$ is strictly governed by:
+  $$\text{Water at } i = \max(0, \min(\text{maxLeft}, \text{maxRight}) - \text{height}[i])$$
+- Outer bars `0` and `n - 1` can never hold water (act as initial boundaries).
+- At any point, compare `maxLeft` and `maxRight`:
+  - If `maxLeft <= maxRight`, the left side is the bottleneck! Any unvisited inner bars are $\ge \text{maxRight} \ge \text{maxLeft}$, meaning the water level over the left bar is strictly dictated by `maxLeft`.
+  - Advance `left++`: if `height[left] > maxLeft`, update `maxLeft`; otherwise, add `maxLeft - height[left]` to `totalwater`.
+  - Symmetrically for the right side when `maxRight < maxLeft`.
+- This eliminates $\mathcal{O}(n)$ prefix/suffix arrays for optimal **$\mathcal{O}(1)$ space** and **0 ms (100% beats)** runtime.
+
+```cpp
+int trap(vector<int>& height) {
+    int totalwater = 0;
+    int left = 0, right = height.size() - 1;
+    int maxLeft = height[left], maxRight = height[right];
+    
+    while (left < right) {
+        if (maxLeft <= maxRight) {
+            left++;
+            if (height[left] > maxLeft) {
+                maxLeft = height[left];
+            } else {
+                totalwater += maxLeft - height[left];
+            }
+        } else {
+            right--;
+            if (height[right] > maxRight) {
+                maxRight = height[right];
+            } else {
+                totalwater += maxRight - height[right];
+            }
+        }
+    }
+    return totalwater;
 }
 ```
 - **Complexity:** Time $\mathcal{O}(n)$, Space $\mathcal{O}(1)$.
