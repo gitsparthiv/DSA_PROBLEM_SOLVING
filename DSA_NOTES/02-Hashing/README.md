@@ -161,3 +161,59 @@ sort(v.begin(), v.end(), [](const pair<int,int>& a, const pair<int,int>& b) {
     return a.second > b.second;
 });
 ```
+
+---
+
+## 8. Bucket Sort Pattern: Bounded Range Sorting in $\mathcal{O}(N)$ Time (LC 347)
+
+### What is Bucket Sort?
+Standard comparison sorts (QuickSort, MergeSort, `std::sort`) take $\mathcal{O}(N \log N)$ time because elements could have any arbitrary values.
+**Bucket Sort** exploits a special constraint: **when the values to be sorted lie within a small, known, bounded range** (such as frequencies from $1$ to $N$), we can sort in pure **$\mathcal{O}(N)$ linear time** without comparisons!
+
+### Why `vector<vector<int>>` instead of primitive arrays?
+- A standard 1D array `int arr[N]` can only store **one single number** per index. If two numbers have the same frequency, the second will overwrite the first!
+- A fixed 2D array `int arr[N][M]` wastes huge memory because most frequencies have few or zero elements.
+- **The Ideal Solution:** `vector<vector<int>> buckets(n + 1);`
+  - An array of $N + 1$ buckets where the **index** is the frequency ($0, 1, 2, \dots, N$).
+  - Each bucket `buckets[i]` is a dynamic `vector<int>` that can hold multiple numbers having that exact frequency.
+
+### Mental Model & Diagram:
+For `nums = [1, 1, 1, 2, 2, 3]`, $N = 6$:
+- Frequencies: `1 -> 3`, `2 -> 2`, `3 -> 1`
+- Buckets:
+  - `Index 0:` `[]`
+  - `Index 1:` `[3]`  (frequency 1)
+  - `Index 2:` `[2]`  (frequency 2)
+  - `Index 3:` `[1]`  (frequency 3)
+  - `Index 4..6:` `[]`
+- To get Top $k=2$, scan from index $6$ down to $1$:
+  - Index 3 gives `1`
+  - Index 2 gives `2`
+  - Result: `[1, 2]` in $\mathcal{O}(N)$ time!
+
+### Template Code:
+```cpp
+vector<int> topKFrequent(vector<int>& nums, int k) {
+    int n = nums.size();
+    unordered_map<int, int> count;
+    for (int num : nums) count[num]++;
+    
+    // buckets[freq] holds a list of numbers with that frequency
+    vector<vector<int>> buckets(n + 1);
+    for (auto& pair : count) {
+        buckets[pair.second].push_back(pair.first);
+    }
+    
+    vector<int> result;
+    // Iterate from highest possible frequency (n) down to 1
+    for (int i = n; i >= 1; i--) {
+        for (int num : buckets[i]) {
+            result.push_back(num);
+            if (result.size() == k) return result;
+        }
+    }
+    return result;
+}
+```
+- **Time Complexity:** $\mathcal{O}(N)$
+- **Space Complexity:** $\mathcal{O}(N)$
