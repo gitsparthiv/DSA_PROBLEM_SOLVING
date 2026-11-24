@@ -65,7 +65,8 @@ When the user gets an accepted solution:
 3. Update `war_plan.xlsx` (`DSA_Daily_Plan` & `DSA_Topic_Summary` only!) and `dsa_plan.xlsx`.
 4. Clean up any local binaries (`test.exe`, `*.o`).
 5. Stage, commit with semantic message, and push to GitHub.
-6. Draft a concise X (Twitter) post for the user.
+6. Provide an X (Twitter) post draft for the user.
+7. **Provide a direct, plain-English one-liner log** for the user's personal daily schedule tracking (no social media hype, purely factual).
 
 ---
 
