@@ -1,4 +1,4 @@
-﻿# DSA Assistant System Workflow & Invariants
+# DSA Assistant System Workflow & Invariants
 
 This file contains the persistent system instructions and workflow requirements for the AI Assistant. Whenever long conversation context resets or begins anew, reference this document to maintain consistent behavior.
 
@@ -74,3 +74,9 @@ When the user gets an accepted solution:
 - Never run destructive git commands (`reset --hard`, `push --force`, `clean -fd`).
 - Always use `-c safe.directory=*` when executing git commands.
 - Ensure binary files (`*.exe`, `*.o`, `test.exe`) are never tracked.
+
+---
+
+### 5. Proactive On-the-Go Note Curation:
+- Whenever the user asks an important conceptual, C++, systems, or algorithmic question mid-session—and the answer uncovers a high-yield insight, compiler trap, or mental model—**proactively curate and update the relevant file inside `DSA_NOTES/` on the go** without waiting until problem completion or for the user to ask.
+- Keep notes crisp, structured, and continuously improving as topics evolve.

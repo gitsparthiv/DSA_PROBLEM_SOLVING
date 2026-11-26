@@ -55,8 +55,11 @@ pair<int, int> drill2_safeMap(const vector<string>& words, const string& query) 
 //   3. Return `buckets`.
 // ============================================================================
 vector<vector<string>> drill3_buckets(const vector<string>& words, int maxLen) {
-    // TODO: Write your code here
-    return {};
+        vector<vector<string>> buckets(maxLen + 1);
+        for(const string& word: words){
+            buckets[word.size()].push_back(word);
+        }
+    return buckets;
 }
 
 // ============================================================================
@@ -67,12 +70,15 @@ vector<vector<string>> drill3_buckets(const vector<string>& words, int maxLen) {
 //         characters alphabetically, and return the sorted copy.
 // ============================================================================
 void drill4a_doubleInPlace(vector<int>& nums) {
-    // TODO: Write your code here
+        for(int& num : nums){
+            num = num*2;
+        }
 }
 
 string drill4b_sortedCopy(const string& original) {
-    // TODO: Write your code here
-    return "";
+        string copy = original;
+    sort(copy.begin(), copy.end());
+    return copy;
 }
 
 // ============================================================================
