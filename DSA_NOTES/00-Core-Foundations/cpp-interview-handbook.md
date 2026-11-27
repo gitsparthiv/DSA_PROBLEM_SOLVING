@@ -19,7 +19,7 @@ vector<vector<int>> matrix(rows, vector<int>(cols, 0)); // 3x4 grid of zeros
 // TRAP 3: Bucket List (List of Lists) — Two Layers!
 // Outer vector is pre-sized -> use [index] to jump to the bucket.
 // Inner bucket starts empty  -> use .push_back() to append into that bucket.
-vector<vector<int>> buckets(N + 1); // N+1 empty vectors
+vector<vector<int>> buckets(N + 1); // N+1 empty buckets: [[], [], ...] (size 0 each, NOT [0]!)
 buckets[freq].push_back(num);       // jump to slot `freq`, then append `num`
 
 // Common Vector Operations:
